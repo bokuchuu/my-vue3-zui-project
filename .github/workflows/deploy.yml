@@ -28,7 +28,7 @@ jobs:
         run: ls -la dist  # 检查 dist 目录是否生成文件
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-vue-pages@v3
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.ACTIONKEY }}
           publish_dir: ./dist
