@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@line/liff": "^2.24.0",
     "my-vue3-zui-project": "file:",
     "vue": "^3.5.10",
     "zui": "^3.0.0"

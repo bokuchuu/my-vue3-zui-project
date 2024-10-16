@@ -1,33 +1,76 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-    <div>
-
-  </div>
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+    <h1>Line LIFF SDK Example</h1>
+    <div v-if="userProfile">
+      <p>User ID: {{ userProfile.userId }}</p>
+      <p>Display Name: {{ userProfile.displayName }}</p>
+      <p>Status Message: {{ userProfile.statusMessage }}</p>
+      <img :src="userProfile.pictureUrl" alt="User Picture" />
+    </div>
+    <button @click="sendMessage">Send Message</button>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
+<script>
+import liff from '@line/liff';
+
+export default {
+  name: 'LiffExample',
+  data() {
+    return {
+      liffId: '2006455856-3BE8l7mx', // 替换为你的 LIFF ID
+      userProfile: null
+    };
+  },
+  mounted() {
+    this.initializeLiff();
+  },
+  methods: {
+    async initializeLiff() {
+      try {
+        await liff.init({ liffId: this.liffId });
+        console.log('LIFF 初始化成功');
+        this.getUserProfile();
+      } catch (error) {
+        console.error('LIFF 初始化失败:', error);
+      }
+    },
+    async getUserProfile() {
+      if (!liff.isLoggedIn()) {
+        liff.login();
+        return;
+      }
+
+      try {
+        const profile = await liff.getProfile();
+        this.userProfile = profile;
+        console.log('获取用户信息成功:', profile);
+      } catch (error) {
+        console.error('获取用户信息失败:', error);
+      }
+    },
+    async sendMessage() {
+      if (!liff.isLoggedIn()) {
+        liff.login();
+        return;
+      }
+
+      try {
+        await liff.sendMessages([
+          {
+            type: 'text',
+            text: 'Hello, this is a message from LIFF!'
+          }
+        ]);
+        console.log('消息发送成功');
+      } catch (error) {
+        console.error('消息发送失败:', error);
+      }
+    }
+  }
+};
+</script>
+
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+/* 你的样式 */
 </style>
