@@ -8,6 +8,8 @@
       <img :src="userProfile.pictureUrl" alt="User Picture" />
     </div>
     <button @click="sendMessage">Send Message</button>
+    <!-- show err message -->
+     <p v-if="errMsg">{{ errMsg }}</p>
   </div>
 </template>
 
@@ -19,7 +21,8 @@ export default {
   data() {
     return {
       liffId: '2006455856-3BE8l7mx', // 替换为你的 LIFF ID
-      userProfile: null
+      userProfile: null,
+      errMsg: null
     };
   },
   mounted() {
@@ -62,9 +65,9 @@ export default {
             text: 'Hello, this is a message from LIFF!'
           }
         ]);
-        console.log('消息发送成功');
+         this.errMsg='消息发送成功';
       } catch (error) {
-        console.error('消息发送失败:', error);
+       this.errMsg= error;
       }
     }
   }
