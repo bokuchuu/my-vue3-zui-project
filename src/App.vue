@@ -1,6 +1,8 @@
 <template>
   <div>
     <h1>Line LIFF SDK Example</h1>
+     <!-- 添加跳转按钮 -->
+     <button @click="redirectToPage">跳转到指定页面</button>
     <div v-if="userProfile">
       <p>User ID: {{ userProfile.userId }}</p>
       <p>Display Name: {{ userProfile.displayName }}</p>
@@ -69,6 +71,9 @@ export default {
       } catch (error) {
        this.errMsg= error;
       }
+    },
+    redirectToPage() {
+      window.location.href = 'http://34.97.188.3:8080/api/v1/test';
     }
   }
 };
