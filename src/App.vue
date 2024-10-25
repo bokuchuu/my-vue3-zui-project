@@ -9,7 +9,7 @@
       <p>Status Message: {{ userProfile.statusMessage }}</p>
       <img :src="userProfile.pictureUrl" alt="User Picture" />
     </div>
-    <button @click="sendMessage">Send Message</button>
+    <button @click="callApi">呼叫 API</button>
     <!-- show err message -->
      <p v-if="errMsg">{{ errMsg }}</p>
   </div>
@@ -17,6 +17,7 @@
 
 <script>
 import liff from '@line/liff';
+import axios from 'axios';
 
 export default {
   name: 'LiffExample',
@@ -72,8 +73,26 @@ export default {
        this.errMsg= error;
       }
     },
-    redirectToPage() {
-      window.location.href = 'http://34.97.188.3:8080/api/v1/test';
+
+
+async callApi() {
+      if (!this.userProfile) {
+        this.errMsg = '用户信息未获取';
+        return;
+      }
+
+      const { userId, displayName, pictureUrl } = this.userProfile;
+
+      try {
+        await axios.post('https://2c05c0ce.r8.cpolar.cn/api/auth/test', {
+          userId,
+          displayName,
+          pictureUrl
+        });
+        this.errMsg = 'API 调用成功';
+      } catch (error) {
+        this.errMsg = `API 调用失败: ${error.message}`;
+      }
     }
   }
 };
