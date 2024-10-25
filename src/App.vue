@@ -84,7 +84,7 @@ async callApi() {
       const { userId, displayName, pictureUrl } = this.userProfile;
 
       try {
-        await axios.post('https://2c05c0ce.r8.cpolar.cn/api/auth/test', {
+        await axios.post('https://7281c72d.r15.vip.cpolar.cn/api/auth/test', {
           userId,
           displayName,
           pictureUrl
